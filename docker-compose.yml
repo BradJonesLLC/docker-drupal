@@ -1,0 +1,26 @@
+# Development compose file.
+
+web:
+  build: . # Can't be below this since we have to add files in public/
+  ports:
+   - "127.0.0.1:8082:80"    # Web
+   - "127.0.0.1:1081:1080"  # Mailcatcher
+  volumes:
+   - .:/var/www/html
+  links:
+   - db
+  environment:
+   - ENVIRONMENT=DEV
+   - SSL=FALSE
+   # - SITE_UUID=site-uuid-here
+db:
+  image: mysql:5.5
+  ports:
+   - "127.0.0.1:3308:3306"
+  volumes_from:
+   - drupal_data
+  environment:
+   - MYSQL_ROOT_PASSWORD=docker
+   - MYSQL_DATABASE=drupal
+   - MYSQL_USER=drupal
+   - MYSQL_PASSWORD=drupalpw

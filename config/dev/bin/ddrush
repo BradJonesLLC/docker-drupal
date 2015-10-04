@@ -1,0 +1,5 @@
+#!/bin/bash
+
+COMMAND="export TERM=xterm && source ~www-data/xdebug.sh && drush $@"
+echo -e "Executing inside container with xdebug support:\n\tdrush $@\n"
+docker exec -ti -u www-data "$COMPOSE_PROJECT_NAME"_web_1 bash -ci "$COMMAND"
