@@ -30,20 +30,18 @@ RUN apt-get install -yqq --no-install-recommends \
   && echo extension=uploadprogress.so > /usr/local/etc/php/conf.d/uploadprogress.ini \
   && apt-get clean autoclean && apt-get autoremove -y
 
+php -r "readfile('https://getcomposer.org/installer');" | php
+mv composer.phar /usr/local/bin/composer
+
 COPY public/core/vendor/twig/twig/ext/twig /usr/lib/twig
 WORKDIR /usr/lib/twig
 RUN phpize && ./configure && make && make install
 RUN echo extension=twig.so > /usr/local/etc/php/conf.d/twig.ini
-WORKDIR /var/www
+WORKDIR /var/www/html
 
 RUN gem install mailcatcher
 
 COPY config/docker/web/rsyslog.conf /etc/rsyslog.conf
-
-RUN ln -s ~www-data/web/vendor/bin/drush /usr/local/bin/drush
-RUN ln -s ~www-data/web/vendor/bin/console /usr/local/bin/console
-COPY config/docker/web/drushrc.php /etc/drush/drushrc.php
-COPY config/docker/web/xdebug.sh xdebug.sh
 
 ADD config/docker/web /docker
 COPY config/docker/web/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -55,6 +53,11 @@ COPY config/docker/web/default.conf /etc/apache2/sites-available/000-default.con
 RUN a2ensite 000-default.conf
 
 COPY . /var/www/html
+RUN composer install
+RUN ln -s web/vendor/bin/drush /usr/local/bin/drush
+RUN ln -s web/vendor/bin/console /usr/local/bin/console
+COPY config/docker/web/drushrc.php /etc/drush/drushrc.php
+COPY config/docker/web/xdebug.sh ../xdebug.sh
 
 EXPOSE 80 443
 
