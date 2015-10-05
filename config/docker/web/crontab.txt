@@ -1,1 +1,1 @@
-22 * * * *  if [[ $ENVIRONMENT != 'DEV' ]]; then su -c '/usr/local/bin/drush -r /var/www/html/public --l=ems.education core-cron' -s /bin/bash www-data; fi
+22 * * * *  if [[ $ENVIRONMENT != 'DEV' ]]; then su -c '/usr/local/bin/drush -r /var/www/html/web --l=$SITE_URL core-cron' -s /bin/bash www-data; fi

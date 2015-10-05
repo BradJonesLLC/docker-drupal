@@ -51,6 +51,9 @@ speed development in a containerized environment and production deployment.
 + Default configuration files for [PhpStorm](https://www.jetbrains.com/phpstorm/),
   including path mapping for Xdebug and setting max debug connections == 10 for
   compatibility with Drush's subrequests.
++ A default cron implementation via crontab, which runs only when `ENVIRONMENT`
+  is not `DEV`. Set the `SITE_URL` environment variable, so Drupal constructs
+  appropriate self-referential URLs during cron.
 
 ### Why ship with Xdebug and Mailcatcher? Won't they waste resources in production?
 Xdebug and Mailcatcher are not loaded/started when `ENVIRONMENT` is not set to `DEV`,
