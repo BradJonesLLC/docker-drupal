@@ -16,7 +16,7 @@ composer create-project drupal-composer/drupal-project:8.x-dev $1 --stability de
 && cp .gitignore .dockerignore \
 && mv .idea-dist .idea && echo "$1" > .idea/.name \
 && mv .idea/.gitignore.dist .idea/.gitignore \
-&& sed -i 's/\.idea/#.idea/g' .gitignore \
+&& sed -i 's/\.idea/\#.idea/g' .gitignore \
 && sed -i 's/PROJECT-NAME-PLACEHOLDER/'$1'/g' .envrc \
 && printf "\n=============================\n" \
 && printf "Your site is scaffolded. Run\n\t'cd $1 && make make-data && docker-compose up'\nto spin up for the first time.\n"
