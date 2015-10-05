@@ -15,5 +15,5 @@ composer create-project drupal-composer/drupal-project:8.x-dev $1 --stability de
 && cp config/drupal/development.services.yml web/sites \
 && cp .gitignore .dockerignore \
 && sed -i 's/PROJECT-NAME-PLACEHOLDER/$1/g' .envrc \
-&& echo "\n\n=============================\n" \
-&& echo "Your site is scaffolded. Run\n\t'cd $1 && make make-data && docker-compose up'\nto spin up for the first time.\n"
+&& printf "\n\n=============================\n" \
+&& printf "Your site is scaffolded. Run\n\t'cd $1 && make make-data && docker-compose up'\nto spin up for the first time.\n"
