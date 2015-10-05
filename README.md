@@ -13,10 +13,16 @@ is uniquely suited for containerized development.
 ...Will install into a new directory named PROJECT-NAME and configure certain docker-compose helpers with that
 same name.
 
+### Default addresses and command examples
+- Start for first time; create data container, install Drupal: `make make-data && docker-compose up`
+- Web: `http://localhost:8082`
+- Mailcatcher: `http://localhost:1082`
+- Get a login for uid 1, after install: `ddrush uli`
+
 ## Features
 Your new Drupal 8 site comes with a number of helper scripts and config files that
 speed development in a containerized environment and production deployment.
-+ A Dockerfile that includes all required and some suggested PHP extensions for Drupal 8
++ A `Dockerfile` that includes all required and some suggested PHP extensions for Drupal 8
   (including the [Twig extension](http://twig.sensiolabs.org/doc/installation.html#installing-the-c-extension))
 + A quick-start [Docker Compose](https://docs.docker.com/compose/) file, which provides
   an Apache/PHP web container and mysql container
@@ -29,13 +35,22 @@ speed development in a containerized environment and production deployment.
     toggles inclusion of `settings.local.php` and `development.services.yml`
   - `SSL`, if set to `FALSE`, disables SSL support (useful for development environments.)
 + Native SSL support (see below.)
-+ A Makefile for quickly creating a data container for the mysql container (run `make make-data`)
-+ A wrapper script for executing [drush](https://github.com/drush-ops/drush)
++ A `Makefile` for quickly creating a data container for the mysql container (run `make make-data`)
++ A wrapper script, `ddrush`, for executing [drush](https://github.com/drush-ops/drush)
   inside the web container, and a starter global `drushrc.php` file
++ An `.envrc` file, for use with [direnv](http://direnv.net/), that:
+  - Tells the `ddrush` the correct container to execute against (by pattern).
+  - Includes the wrapper script and the `vendor/bin` directory into the PATH.
 + Xdebug for development, and all invocations of the `ddrush` helper script
 + [Mailcatcher](http://mailcatcher.me/) for debugging sent mail.
-+ .dockerignore is primed as a copy of docker-project's .gitignore. When building
-  your image, the Dockerfile runs `composer install` inside the container.
++ `.dockerignore` is primed as a copy of docker-project's `.gitignore.` Docker runs
+  `composer install` inside the container on build. See *Development Workflow*, below.
++ All processes in the web container log to `STDOUT`; this is useful if you wish to
+  aggregate your Docker container logs or integrate with an external log service
+  such as [Logentries](https://logentries.com/learnmore?code=e500f810).
++ Default configuration files for [PhpStorm](https://www.jetbrains.com/phpstorm/),
+  including path mapping for Xdebug and setting max debug connections == 10 for
+  compatibility with Drush's subrequests.
 
 ### Why ship with Xdebug and Mailcatcher? Won't they waste resources in production?
 Xdebug and Mailcatcher are not loaded/started when `ENVIRONMENT` is not set to `DEV`,
@@ -47,7 +62,7 @@ a "Development-only" Dockerfile.
 request, and initiate a corresponding listening session in your IDE on port 9000.
 (E.g., [PhpStorm](https://www.jetbrains.com/phpstorm/help/zero-configuration-debugging.html#d399854e506))
 
-## Development workflow
+## Development Workflow
 While a wrapper is provided for running drush inside the container, avoid using
 commands like `drush dl`. When using the default `docker-compose.yml` file, we
 inject the entire file structure on the host into the container, so your local
@@ -60,6 +75,19 @@ is to add them as requirements in `composer.json` and then running `composer upd
 
 As noted above, the contents of those dependencies are excluded by default in
 `.gitignore`, so you should only be versioning code custom to your site.
+
+### `ddrush` helper script
+Paired with the environment variable/PATH set with direnv (see above), you may execute
+any Drush command inside the web container by typing `ddrush your-command` inside
+the project. (You may need to run `direnv allow`) in your shell, before starting work.
+
+If the script appears to hang while you are using Xdebug in PhpStorm, increase the
+"Max. simultaneous connections" option in the PHP Debug configuration.
+
+### Updating Drupal core
+Use [the method provided by drupal-project](https://github.com/drupal-composer/drupal-project#updating-drupal-core),
+which can use the copy of drush in `bin/vendor` which is included in the PATH via
+the `.envrc` file.
 
 ### What about Drupal 8 configuration?
 To ship/version a copy of your site with exported configuration, dump the config
@@ -86,10 +114,10 @@ in the shipped docker-compose.yml file) and [mount](https://docs.docker.com/user
 ## Requirements
 - [Docker](https://docker.com)
 
-## Highly Recommended
+### Highly Recommended
 - [Docker Compose](https://docs.docker.com/compose/)
-- [direnv](http://direnv.net/) for zero-config use of `ddrush` drush wrapper
-- A local installation of [composer](http://getcomposer.org/)
+- [direnv](http://direnv.net/) for zero-config use of `ddrush` drush wrapper and scripts in `vendor/bin`.
+- A local installation of [composer](http://getcomposer.org/), for use in local development.
 
 ## Contributing
 Pull requests welcome; Both Drupal 8 and Docker are relatively new and fast-moving projects.

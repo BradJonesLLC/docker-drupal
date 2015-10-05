@@ -1,0 +1,16 @@
+# Taken from https://github.com/github/gitignore/blob/613394b3a9753546f8c5656960e44a666d010459/Global/JetBrains.gitignore
+
+# User-specific stuff:
+deployment.xml
+workspace.xml
+tasks.xml
+dictionaries
+# Sensitive or high-churn files:
+dataSources.ids
+dataSources.xml
+dataSources.local.xml
+sqlDataSources.xml
+dynamic.xml
+uiDesigner.xml
+*.ipr
+*.iws

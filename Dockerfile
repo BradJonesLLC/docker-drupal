@@ -24,19 +24,14 @@ RUN apt-get install -yqq --no-install-recommends \
   && a2enmod expires \
   && a2enmod headers \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-  && docker-php-ext-install mysql pdo_mysql zip mbstring gd exif \
+  && docker-php-ext-install mysql pdo_mysql zip mbstring gd exif pcntl \
   && pecl install uploadprogress xdebug memcached \
   && echo extension=memcached.so > /usr/local/etc/php/conf.d/memcached.ini \
   && echo extension=uploadprogress.so > /usr/local/etc/php/conf.d/uploadprogress.ini \
   && apt-get clean autoclean && apt-get autoremove -y
 
-php -r "readfile('https://getcomposer.org/installer');" | php
-mv composer.phar /usr/local/bin/composer
+RUN php -r "readfile('https://getcomposer.org/installer');" | php && mv composer.phar /usr/local/bin/composer
 
-COPY public/core/vendor/twig/twig/ext/twig /usr/lib/twig
-WORKDIR /usr/lib/twig
-RUN phpize && ./configure && make && make install
-RUN echo extension=twig.so > /usr/local/etc/php/conf.d/twig.ini
 WORKDIR /var/www/html
 
 RUN gem install mailcatcher
@@ -54,10 +49,15 @@ RUN a2ensite 000-default.conf
 
 COPY . /var/www/html
 RUN composer install
-RUN ln -s web/vendor/bin/drush /usr/local/bin/drush
-RUN ln -s web/vendor/bin/console /usr/local/bin/console
+RUN ln -s ~www-data/html/vendor/bin/drush /usr/local/bin/drush
+RUN ln -s ~www-data/html/vendor/bin/console /usr/local/bin/console
 COPY config/docker/web/drushrc.php /etc/drush/drushrc.php
 COPY config/docker/web/xdebug.sh ../xdebug.sh
+
+RUN cp -R vendor/twig/twig/ext/twig /usr/lib/twig
+WORKDIR /usr/lib/twig
+RUN phpize && ./configure && make && make install
+RUN echo extension=twig.so > /usr/local/etc/php/conf.d/twig.ini
 
 EXPOSE 80 443
 
