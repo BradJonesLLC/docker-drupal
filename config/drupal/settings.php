@@ -14,6 +14,6 @@ $databases['default']['default'] = array (
 //$config_directories['active'] = 'sites/default/config_HASH/active';
 //$config_directories['staging'] = 'sites/default/config_HASH/staging';
 
-if (file_exists(__DIR__ . '/settings.local.php')) {
+if (file_exists(__DIR__ . '/settings.local.php') && (getenv('ENVIRONMENT') == 'DEV')) {
   include __DIR__ . '/settings.local.php';
 }

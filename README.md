@@ -20,20 +20,63 @@ speed development in a containerized environment and production deployment.
   (including the [Twig extension](http://twig.sensiolabs.org/doc/installation.html#installing-the-c-extension))
 + A quick-start [Docker Compose](https://docs.docker.com/compose/) file, which provides
   an Apache/PHP web container and mysql container
++ Site installation with:
+  - Optional force-set of an existing site UUID and import of configuration files,
+    if present.
+  - Sensible default `settings.php`, `settings.local.php` and `development.services.yml` files.
 + Scripts respond to environment variables, with defaults in the docker-compose.yml file:
-  - `ENVIRONMENT`, if set to `DEV`, enables Mailcatcher, and Xdebug for Apache
+  - `ENVIRONMENT`, if set to `DEV`, enables Mailcatcher, and Xdebug for Apache, and
+    toggles inclusion of `settings.local.php` and `development.services.yml`
   - `SSL`, if set to `FALSE`, disables SSL support (useful for development environments.)
 + Native SSL support (see below.)
 + A Makefile for quickly creating a data container for the mysql container (run `make make-data`)
 + A wrapper script for executing [drush](https://github.com/drush-ops/drush)
-  inside the web container, and a starter global drushrc.php file
+  inside the web container, and a starter global `drushrc.php` file
 + Xdebug for development, and all invocations of the `ddrush` helper script
 + [Mailcatcher](http://mailcatcher.me/) for debugging sent mail.
++ .dockerignore is primed as a copy of docker-project's .gitignore. When building
+  your image, the Dockerfile runs `composer install` inside the container.
 
 ### Why ship with Xdebug and Mailcatcher? Won't they waste resources in production?
 Xdebug and Mailcatcher are not loaded/started when `ENVIRONMENT` is not set to `DEV`,
 so while you are shipping a slightly-larger container, this setup avoids the need for
 a "Development-only" Dockerfile.
+
+### Xdebug Usage on same host as Docker container
+[Toggle Xdebug](http://xdebug.org/docs/remote#starting) in your browser or HTTP
+request, and initiate a corresponding listening session in your IDE on port 9000.
+(E.g., [PhpStorm](https://www.jetbrains.com/phpstorm/help/zero-configuration-debugging.html#d399854e506))
+
+## Development workflow
+While a wrapper is provided for running drush inside the container, avoid using
+commands like `drush dl`. When using the default `docker-compose.yml` file, we
+inject the entire file structure on the host into the container, so your local
+file changes are reflected in real time. Asking drush to make filesystem changes
+outside the `sites/*/files` directory (such as during `drush cache-rebuild`) may
+result in permissions errors and other weirdness.
+
+**The proper way to include projects and other dependencies**, when using composer,
+is to add them as requirements in `composer.json` and then running `composer update`.
+
+As noted above, the contents of those dependencies are excluded by default in
+`.gitignore`, so you should only be versioning code custom to your site.
+
+### What about Drupal 8 configuration?
+To ship/version a copy of your site with exported configuration, dump the config
+to disk and set your [`$config_directories` variable in `settings.php`](https://www.drupal.org/node/2431247).
+In a production environment, import your configuration with drush or the web UI.
+
+#### Configuration management in DEV
+When the web container starts with the `ENVIRONMENT` environment variable set to `DEV`,
+the bootstrap script attempts to determine the presence of an installed Drupal
+database. If not found, the script will attempt to install Drupal, set the site UUID,
+and import any existing configuration. Thus you can re-use (or, not) a development
+database even across web container rebuilds.
+
+If importing an existing config on a newly-installed DEV database, set the `SITE_UUID`
+environment variable in docker-compose.yml (or other config, e.g., with
+[Maestro](https://github.com/signalfuse/maestro-ng) or even Apache) to avoid Drupal
+refusing to import, thinking you're clobbering an incompatible site.
 
 ## SSL Support
 To enable SSL, make sure your `SSL` environment variable is not `FALSE` (as is default
