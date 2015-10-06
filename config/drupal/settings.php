@@ -1,4 +1,6 @@
 
+$settings['hash_salt'] = file_get_contents(DRUPAL_ROOT . '/../config/docker/web/drupal-salt.txt');
+
 $databases['default']['default'] = array (
   'database' => 'drupal',
   'username' => 'drupal',
