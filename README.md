@@ -100,8 +100,9 @@ the `.envrc` file.
 
 ### What about Drupal 8 configuration?
 To ship/version a copy of your site with exported configuration, dump the config
-to disk and set your [`$config_directories` variable in `settings.php`](https://www.drupal.org/node/2431247).
-In a production environment, import your configuration with drush or the web UI.
+to disk - `ddrush config-export` - and your config will be dumped to `config/drupal/sync`.
+That directory is set as writable by the Apache user in development mode, for ease
+of export. In a production environment, import your configuration with drush or the web UI.
 
 #### Configuration management in development mode
 When the web container starts in development mode (and `DRUPAL_NO_INSTALL` does
