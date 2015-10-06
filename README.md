@@ -37,10 +37,12 @@ speed development in a containerized environment and production deployment.
   - `SSL`, if set to `FALSE`, disables SSL support (useful for development environments.)
 + Native SSL support (see below.)
 + A `Makefile` for quickly creating a data container for the mysql container (run `make make-data`)
-+ A wrapper script, `ddrush`, for executing [drush](https://github.com/drush-ops/drush)
-  inside the web container, and a starter global `drushrc.php` file
++ Wrapper scripts:
+  - `ddrush`, for executing [drush](https://github.com/drush-ops/drush) inside the
+    web container, with a starter global `/etc/drush/drushrc.php` file.
+  - `dbash`, a shortcut for getting a bash shell inside the web container (as *www-data*)
 + An `.envrc` file, for use with [direnv](http://direnv.net/), that:
-  - Tells the `ddrush` the correct container to execute against (by pattern).
+  - Tells wrapper scripts the correct container to execute against (by pattern).
   - Includes the wrapper script and the `vendor/bin` directory into the PATH.
 + Xdebug for development, and all invocations of the `ddrush` helper script
 + [Mailcatcher](http://mailcatcher.me/) for debugging sent mail.
@@ -143,6 +145,9 @@ Issues and pull requests welcome; Both Drupal 8 and Docker are relatively new an
 fast-moving projects. There doesn't appear to be many other comprehensive starterkits
 for Docker and Drupal, so this is my effort at helping others avoid my steep learning
 curve on this front.
+
+### Known Issues
+See the [confirmed bugs in the issue queue](https://github.com/BradJonesLLC/docker-drupal/labels/bug).
 
 ## See Also
 ### Other Projects

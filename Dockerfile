@@ -32,8 +32,6 @@ RUN apt-get install -yqq --no-install-recommends \
 
 RUN php -r "readfile('https://getcomposer.org/installer');" | php && mv composer.phar /usr/local/bin/composer
 
-WORKDIR /var/www/html
-
 RUN gem install mailcatcher
 
 COPY config/docker/web/rsyslog.conf /etc/rsyslog.conf
@@ -48,16 +46,17 @@ COPY config/docker/web/default.conf /etc/apache2/sites-available/000-default.con
 RUN a2ensite 000-default.conf
 
 COPY . /var/www/html
-RUN composer install
+RUN composer install -d /var/www/html
 RUN ln -s ~www-data/html/vendor/bin/drush /usr/local/bin/drush
 RUN ln -s ~www-data/html/vendor/bin/console /usr/local/bin/console
 COPY config/docker/web/drushrc.php /etc/drush/drushrc.php
-COPY config/docker/web/xdebug.sh ../xdebug.sh
+COPY config/docker/web/xdebug.sh /var/www/xdebug.sh
 
 RUN cp -R vendor/twig/twig/ext/twig /usr/lib/twig
 WORKDIR /usr/lib/twig
 RUN phpize && ./configure && make && make install
 RUN echo extension=twig.so > /usr/local/etc/php/conf.d/twig.ini
+WORKDIR /var/www/html
 
 EXPOSE 80 443
 
