@@ -126,7 +126,9 @@ in the shipped docker-compose.yml file) and [mount](https://docs.docker.com/user
 ## Production Deployment
 ### Data Permanence
 With development mode off, Drupal will expect to find an installed database at the
-`db` alias.
+`db` alias. Also, it's strongly suggested you mount host directories into the container
+at the locations in [`web-writeable.txt`](https://github.com/BradJonesLLC/docker-drupal/blob/master/config/docker/web/web-writeable.txt)
+so user and system-generated files are preserved.
 
 ## Requirements
 - [Docker](https://docker.com)
