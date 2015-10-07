@@ -51,6 +51,9 @@ speed development in a containerized environment and production deployment.
 + All processes in the web container log to `STDOUT`; this is useful if you wish to
   aggregate your Docker container logs or integrate with an external log service
   such as [Logentries](https://logentries.com/learnmore?code=e500f810).
++ An optional `rsyslog.json.conf` file, which will format log output in JSON format;
+  this expects JSON output directly from Drupal; consider using a module like
+  [Syslog JSON](https://www.drupal.org/sandbox/bradjones1/2569795)
 + Default configuration files for [PhpStorm](https://www.jetbrains.com/phpstorm/),
   including a server configuration and path mapping for Xdebug and setting max
   debug connections == 10 for [compatibility with](https://github.com/drush-ops/drush/issues/1534)
@@ -85,8 +88,10 @@ As noted above, the contents of those dependencies are excluded by default in
 
 ### `ddrush` helper script
 Paired with the environment variable/PATH set with direnv (see above), you may execute
-any Drush command inside the web container by typing `ddrush your-command` inside
+most Drush commands inside the web container by typing `ddrush your-command` inside
 the project. (You may need to run `direnv allow`) in your shell, before starting work.
+More complex commands involving quoting are not passed through verbatim; run `dbash`
+first, then your `drush` command directly inside the container.
 
 ### Xdebug Usage on same host as Docker container
 [Toggle Xdebug](http://xdebug.org/docs/remote#starting) in your browser or HTTP
