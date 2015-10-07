@@ -20,6 +20,7 @@ RUN apt-get install -yqq --no-install-recommends \
   libjpeg62-turbo-dev \
   libpng12-dev \
   libmemcached-dev \
+  locales \
   && a2enmod rewrite \
   && a2enmod expires \
   && a2enmod headers \
