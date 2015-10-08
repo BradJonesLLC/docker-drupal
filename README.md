@@ -2,10 +2,11 @@
 
 ## Purpose
 This script is intended for one-time, initial scaffolding of a new [Drupal 8](http://drupal.org) project,
-which would then be self-contained. It utilizes the [drupal-project composer template](https://github.com/drupal-composer/drupal-project)
+which would then be self-contained. It uses the [drupal-project](https://github.com/drupal-composer/drupal-project)
 to pull in Drupal core, and provides additional helpful Docker-focused functionality.
-Drupal 8, with its robust exportable configuration file management and composer integration,
-is uniquely suited for containerized development.
+The drupal-project `composer.json` file and helper scripts can then be used to manage
+core updates, contrib modules and more. Drupal 8, with its robust exportable configuration
+file management and composer integration, is uniquely suited for containerized development.
 
 ## Usage/Quick-Start
 ```
@@ -68,11 +69,13 @@ so while you are shipping a slightly-larger container, this setup avoids the nee
 a "Development-only" Dockerfile.
 
 ## Development Workflow
+**TL;DR:** Leverage composer as much as possible for managing your project.
+
 While a wrapper is provided for running drush inside the container, avoid using
 commands like `drush dl`. When using the default `docker-compose.yml` file, we
 inject the entire file structure on the host into the container, so your local
 file changes are reflected in real time. Asking drush to make filesystem changes
-outside the `sites/*/files` directory (such as during `drush cache-rebuild`) may
+outside the `sites/*/files` directory (`drush cache-rebuild` should be OK) may
 result in permissions errors and other weirdness.
 
 ### Development Mode
@@ -108,6 +111,10 @@ To ship/version a copy of your site with exported configuration, dump the config
 to disk - `ddrush config-export` - and your config will be dumped to `config/drupal/sync`.
 That directory is set as writable by the Apache user in development mode, for ease
 of export. In a production environment, import your configuration with drush or the web UI.
+
+### Patching
+Check out [composer-patches](https://github.com/cweagans/composer-patches) for an easy
+solution.
 
 #### Configuration management in development mode
 When the web container starts in development mode (and `DRUPAL_NO_INSTALL` does
