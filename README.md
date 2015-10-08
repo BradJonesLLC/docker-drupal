@@ -140,11 +140,12 @@ so user and system-generated files are preserved.
 
 ## Requirements
 - [Docker](https://docker.com)
+- Linux or similar virtualized (e.g., Boot2Docker) environment with bash shell
+- A local installation of [composer](http://getcomposer.org/)
 
 ### Highly Recommended
 - [Docker Compose](https://docs.docker.com/compose/)
 - [direnv](http://direnv.net/) for zero-config use of `ddrush` drush wrapper and scripts in `vendor/bin`.
-- A local installation of [composer](http://getcomposer.org/), for use in local development.
 
 ## Contributing
 Issues and pull requests welcome; Both Drupal 8 and Docker are relatively new and

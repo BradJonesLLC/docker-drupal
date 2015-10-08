@@ -29,6 +29,7 @@ RUN apt-get install -yqq --no-install-recommends \
   && pecl install uploadprogress xdebug memcached \
   && echo extension=memcached.so > /usr/local/etc/php/conf.d/memcached.ini \
   && echo extension=uploadprogress.so > /usr/local/etc/php/conf.d/uploadprogress.ini \
+  && echo zend_extension=opcache.so > /usr/local/etc/php/conf.d/00-opcache.ini \
   && apt-get clean autoclean && apt-get autoremove -y
 
 RUN php -r "readfile('https://getcomposer.org/installer');" | php && mv composer.phar /usr/local/bin/composer

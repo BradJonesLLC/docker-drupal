@@ -89,3 +89,7 @@ $settings['rebuild_access'] = TRUE;
 // Disable/debug some modules.
 
 $config['google_analytics.settings']['debug'] = TRUE;
+
+$settings['trusted_host_patterns'] = array(
+  '^localhost$',
+);

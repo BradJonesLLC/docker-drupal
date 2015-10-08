@@ -12,6 +12,7 @@ $databases['default']['default'] = array (
   'driver' => 'mysql',
 );
 
+$settings['install_profile'] = 'minimal';
 $config_directories[CONFIG_SYNC_DIRECTORY] = '../config/drupal/sync';
 
 if (file_exists(__DIR__ . '/settings.local.php') && (getenv('ENVIRONMENT') == 'DEV')) {
