@@ -13,7 +13,6 @@ composer create-project drupal-composer/drupal-project:8.x-dev $1 --stability de
 && cat config/drupal/settings.php >> web/sites/default/settings.php \
 && cp config/drupal/settings.local.php web/sites/default \
 && cp config/drupal/development.services.yml web/sites \
-&& cp .gitignore .dockerignore \
 && mv .idea-dist .idea && echo "$1" > .idea/.name \
 && mv .idea/.gitignore.dist .idea/.gitignore \
 && sed -i 's/\.idea/\#.idea/g' .gitignore \

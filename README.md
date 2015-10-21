@@ -47,8 +47,10 @@ speed development in a containerized environment and production deployment.
   - Includes the wrapper script and the `vendor/bin` directory into the PATH.
 + Xdebug for development, and all invocations of the `ddrush` helper script
 + [Mailcatcher](http://mailcatcher.me/) for debugging sent mail.
-+ `.dockerignore` is primed as a copy of docker-project's `.gitignore.` Docker runs
-  `composer install` inside the container on build. See *Development Workflow*, below.
++ `.dockerignore` excludes VCS and uploaded files. Docker runs `composer install`
+  inside the container on build, though if your development environment includes
+  many of those files, having them copied into the container saves some time on
+  build. See *Development Workflow*, below.
 + All processes in the web container log to `STDOUT`; this is useful if you wish to
   aggregate your Docker container logs or integrate with an external log service
   such as [Logentries](https://logentries.com/learnmore?code=e500f810).

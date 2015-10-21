@@ -1,0 +1,5 @@
+# Ignore Drupal's file directory
+web/sites/default/files
+
+.idea
+.git
