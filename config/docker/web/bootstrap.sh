@@ -7,7 +7,8 @@ done
 if [[ $SSL == 'FALSE' ]]; then a2dismod ssl; fi
 if [[ $ENVIRONMENT == 'DEV' ]]; then
   cp /docker/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-  chown -R www-data /var/www/html/config/drupal/sync
+  chown -R :www-data /var/www/html/config/drupal/sync
+  chmod -R g+w /var/www/html/config/drupal/sync
 fi
 
 cd /var/www/html/web
