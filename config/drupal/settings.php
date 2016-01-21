@@ -1,4 +1,8 @@
 
+if (!getenv('INSTALL_ACTIVE')) {
+  $settings['container_yamls'][] = __DIR__ . '/services.yml';
+}
+
 $settings['hash_salt'] = file_get_contents(DRUPAL_ROOT . '/../config/docker/web/drupal-salt.txt');
 
 $databases['default']['default'] = array (
