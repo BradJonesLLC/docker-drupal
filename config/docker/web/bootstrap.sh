@@ -14,11 +14,12 @@ cd /var/www/html/web
 if [[ $ENVIRONMENT == 'DEV' && -z $DRUPAL_NO_INSTALL && ! `mysql -hdb -p"$DB_1_ENV_MYSQL_ROOT_PASSWORD" -e "select 1 from $DB_1_ENV_MYSQL_DATABASE.router limit 1"` ]]; then
   printf "Installing Drupal.\n"
   export INSTALL_ACTIVE=TRUE
-  drush site-install minimal -y install_configure_form.update_status_module='array(FALSE,FALSE)' --keep-config
+  drush site-install minimal -y install_configure_form.update_status_module='array(FALSE,FALSE)'
   if [[ -n "$SITE_UUID" ]]; then drush cset -y system.site uuid "$SITE_UUID" && drush config-import -y; fi
   unset INSTALL_ACTIVE
 fi
 
 drush updb -y
+drush entity-updates -y
 
 apache2-foreground
