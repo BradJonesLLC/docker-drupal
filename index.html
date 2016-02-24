@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Drupal on Docker : Docker scaffolding for Drupal 8">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Drupal on Docker</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/BradJonesLLC/docker-drupal">View on GitHub</a>
+
+          <h1 id="project_title">Drupal on Docker</h1>
+          <h2 id="project_tagline">Docker scaffolding for Drupal 8</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/BradJonesLLC/docker-drupal/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/BradJonesLLC/docker-drupal/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="docker-scaffolding-for-drupal-8" class="anchor" href="#docker-scaffolding-for-drupal-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Scaffolding for Drupal 8</h1>
+
+<h2>
+<a id="purpose" class="anchor" href="#purpose" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Purpose</h2>
+
+<p>This script is intended for one-time, initial scaffolding of a new <a href="http://drupal.org">Drupal 8</a> project,
+which would then be self-contained. It uses the <a href="https://github.com/drupal-composer/drupal-project">drupal-project</a>
+to pull in Drupal core, and provides additional helpful Docker-focused functionality.
+The drupal-project <code>composer.json</code> file and helper scripts can then be used to manage
+core updates, contrib modules and more. Drupal 8, with its robust exportable configuration
+file management and composer integration, is uniquely suited for containerized development.</p>
+
+<h2>
+<a id="usagequick-start" class="anchor" href="#usagequick-start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage/Quick-Start</h2>
+
+<pre><code>curl -sS https://raw.githubusercontent.com/BradJonesLLC/docker-drupal/master/install.sh | bash -s PROJECT-NAME
+</code></pre>
+
+<p>...Will install into a new directory named PROJECT-NAME and configure certain docker-compose helpers with that
+same name.</p>
+
+<h3>
+<a id="default-addresses-and-command-examples" class="anchor" href="#default-addresses-and-command-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default addresses and command examples</h3>
+
+<ul>
+<li>Start for first time; create data container, install Drupal: <code>make make-data &amp;&amp; docker-compose up</code>
+</li>
+<li>Web: <code>http://localhost:8082</code>
+</li>
+<li>Mailcatcher: <code>http://localhost:1082</code>
+</li>
+<li>Get a login for uid 1, after install: <code>ddrush uli</code>
+</li>
+</ul>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h2>
+
+<p>Your new Drupal 8 site comes with a number of helper scripts and config files that
+speed development in a containerized environment and production deployment.</p>
+
+<ul>
+<li>A <code>Dockerfile</code> that includes all required and some suggested PHP extensions for Drupal 8
+(including the <a href="http://twig.sensiolabs.org/doc/installation.html#installing-the-c-extension">Twig extension</a>)</li>
+<li>A quick-start <a href="https://docs.docker.com/compose/">Docker Compose</a> file, which provides
+an Apache/PHP web container and mysql container</li>
+<li>Site installation with:
+
+<ul>
+<li>Optional force-set of an existing site UUID and import of configuration files,
+if present.</li>
+<li>Sensible default <code>settings.php</code>, <code>settings.local.php</code> and <code>development.services.yml</code> files.</li>
+</ul>
+</li>
+<li>Scripts respond to environment variables, with defaults in the docker-compose.yml file:
+
+<ul>
+<li>In development mode, enables Mailcatcher, and Xdebug for Apache, and
+toggles inclusion of <code>settings.local.php</code> and <code>development.services.yml</code>
+</li>
+<li>
+<code>SSL</code>, if set to <code>FALSE</code>, disables SSL support (useful for development environments.)</li>
+</ul>
+</li>
+<li>Native SSL support (see below.)</li>
+<li>A <code>Makefile</code> for quickly creating a data container for the mysql container (run <code>make make-data</code>)</li>
+<li>Wrapper scripts:
+
+<ul>
+<li>
+<code>ddrush</code>, for executing <a href="https://github.com/drush-ops/drush">drush</a> inside the
+web container, with a starter global <code>/etc/drush/drushrc.php</code> file.</li>
+<li>
+<code>dbash</code>, a shortcut for getting a bash shell inside the web container (as <em>www-data</em>)</li>
+</ul>
+</li>
+<li>An <code>.envrc</code> file, for use with <a href="http://direnv.net/">direnv</a>, that:
+
+<ul>
+<li>Tells wrapper scripts the correct container to execute against (by pattern).</li>
+<li>Includes the wrapper script and the <code>vendor/bin</code> directory into the PATH.</li>
+</ul>
+</li>
+<li>Xdebug for development, and all invocations of the <code>ddrush</code> helper script</li>
+<li>
+<a href="http://mailcatcher.me/">Mailcatcher</a> for debugging sent mail.</li>
+<li>
+<code>.dockerignore</code> excludes VCS and uploaded files. Docker runs <code>composer install</code>
+inside the container on build, though if your development environment includes
+many of those files, having them copied into the container saves some time on
+build. See <em>Development Workflow</em>, below.</li>
+<li>All processes in the web container log to <code>STDOUT</code>; this is useful if you wish to
+aggregate your Docker container logs or integrate with an external log service
+such as <a href="https://logentries.com/learnmore?code=e500f810">Logentries</a>.</li>
+<li>An optional <code>rsyslog.json.conf</code> file, which will format log output in JSON format;
+this expects JSON output directly from Drupal; consider using a module like
+<a href="https://www.drupal.org/sandbox/bradjones1/2569795">Syslog JSON</a>
+</li>
+<li>Default configuration files for <a href="https://www.jetbrains.com/phpstorm/">PhpStorm</a>,
+including a server configuration and path mapping for Xdebug and setting max
+debug connections == 10 for <a href="https://github.com/drush-ops/drush/issues/1534">compatibility with</a>
+Drush's subrequests.</li>
+<li>A default cron implementation via crontab, which runs only when not in
+development mode. Set the <code>SITE_URL</code> environment variable, so Drupal constructs
+appropriate self-referential URLs during cron.</li>
+</ul>
+
+<h2>
+<a id="copyright-and-license" class="anchor" href="#copyright-and-license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copyright and License</h2>
+
+<p>© Brad Jones LLC. Licensed under GPL 2.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Drupal on Docker maintained by <a href="https://github.com/BradJonesLLC">BradJonesLLC</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-68548029-2");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
