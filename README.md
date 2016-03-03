@@ -149,11 +149,11 @@ so user and system-generated files are preserved.
 
 ## Requirements
 - [Docker](https://docker.com)
-- Linux or similar virtualized (e.g., Boot2Docker) environment with bash shell
+- [Docker Compose](https://docs.docker.com/compose/), for running containers locally.
+- Linux or similar virtualized (e.g., Boot2Docker) environment with bash shell. Perhaps [Docker Toolbox](https://docs.docker.com/toolbox/overview/) will help if you're on Windows or Mac?
 - A local installation of [composer](http://getcomposer.org/)
 
 ### Highly Recommended
-- [Docker Compose](https://docs.docker.com/compose/)
 - [direnv](http://direnv.net/) for zero-config use of `ddrush` drush wrapper and scripts in `vendor/bin`.
 
 ## Contributing
@@ -182,4 +182,4 @@ A few options for production deployment:
 - [Docker group on groups.drupal.org](https://groups.drupal.org/docker)
 
 ## Copyright and License
-&copy; 2015 by Brad Jones LLC. Licensed under GPL 2.
+&copy; Brad Jones LLC. Licensed under GPL 2.
