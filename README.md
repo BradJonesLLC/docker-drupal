@@ -119,15 +119,11 @@ Check out [composer-patches](https://github.com/cweagans/composer-patches) for a
 solution.
 
 #### Configuration management in development mode
-When the web container starts in development mode (and `DRUPAL_NO_INSTALL` does
-not evaluate to `NULL`), the bootstrap script attempts to determine the presence
-of an installed Drupal database. If not found, the script will attempt to install
-Drupal, set the site UUID, and import any existing configuration. Thus you can
-re-use (or, not) a development database even across web container rebuilds.
-
-If importing an existing config on a freshly-installed dev database, set the `SITE_UUID`
-environment variable to avoid Drupal refusing to import, thinking you're clobbering
-an incompatible site.
+When the web container starts in with the environment variable `DRUPAL_INSTALL = TRUE`,
+the bootstrap script attempts to determine the presence of an installed Drupal database.
+If not found, the script will attempt to install Drupal, set the site UUID, and import
+any existing configuration. Thus you can re-use (or, not) a development database even
+across web container rebuilds.
 
 #### Database management in development mode
 As noted above, the bootstrap script contains some safeguards against installing
