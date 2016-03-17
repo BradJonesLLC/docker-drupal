@@ -26,7 +26,7 @@
 <a id="purpose" class="anchor" href="#purpose" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Purpose</h2>
 
 <p>This script is intended for one-time, initial scaffolding of a new <a href="http://drupal.org">Drupal 8</a> project,
-which would then be self-contained. It uses the <a href="https://github.com/drupal-composer/drupal-project">drupal-project</a>
+which would then be self-contained. It uses a <code>composer.json</code> file derived from <a href="https://github.com/drupal-composer/drupal-project">drupal-project</a>
 to pull in Drupal core, and provides additional helpful Docker-focused functionality.
 The drupal-project <code>composer.json</code> file and helper scripts can then be used to manage
 core updates, contrib modules and more. Drupal 8, with its robust exportable configuration
@@ -35,11 +35,16 @@ file management and composer integration, is uniquely suited for containerized d
 <h2>
 <a id="usagequick-start" class="anchor" href="#usagequick-start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage/Quick-Start</h2>
 
-<pre><code>curl -sS https://raw.githubusercontent.com/BradJonesLLC/docker-drupal/master/install.sh | bash -s PROJECT-NAME
+<pre><code>composer create-project bradjonesllc/docker-drupal:8.x-dev project-dir --stability dev --no-interaction
 </code></pre>
 
-<p>...Will install into a new directory named PROJECT-NAME and configure certain docker-compose helpers with that
-same name.</p>
+<p>...Will install into a new directory named <code>project-dir</code>.</p>
+
+<pre><code>cd project-dir &amp;&amp; ./install.sh
+</code></pre>
+
+<p>...Will run some additional helpful development scaffolding (see below.) This step
+is optional but may help in kickstarting your development.</p>
 
 <h3>
 <a id="default-addresses-and-command-examples" class="anchor" href="#default-addresses-and-command-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default addresses and command examples</h3>
@@ -84,7 +89,6 @@ toggles inclusion of <code>settings.local.php</code> and <code>development.servi
 <code>SSL</code>, if set to <code>FALSE</code>, disables SSL support (useful for development environments.)</li>
 </ul>
 </li>
-<li>Native SSL support (see below.)</li>
 <li>A <code>Makefile</code> for quickly creating a data container for the mysql container (run <code>make make-data</code>)</li>
 <li>Wrapper scripts:
 
