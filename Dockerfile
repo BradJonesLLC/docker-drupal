@@ -11,6 +11,7 @@ RUN apt-get install -yqq --no-install-recommends \
   mysql-client \
   libpng-dev \
   ca-certificates \
+  php5-sqlite \
   libsqlite3-dev \
   build-essential \
   git \
