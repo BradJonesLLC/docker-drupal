@@ -42,7 +42,6 @@ COPY config/docker/web/rsyslog.conf /etc/rsyslog.conf
 ADD config/docker/web /docker
 COPY config/docker/web/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN a2enmod ssl
 COPY config/docker/web/crontab.txt /var/crontab.txt
 RUN crontab /var/crontab.txt && chmod 600 /etc/crontab
 COPY config/docker/web/default.conf /etc/apache2/sites-available/000-default.conf
@@ -61,6 +60,6 @@ RUN phpize && ./configure && make && make install
 RUN echo extension=twig.so > /usr/local/etc/php/conf.d/twig.ini
 WORKDIR /var/www/html
 
-EXPOSE 80 443
+EXPOSE 80
 
 CMD ["/usr/bin/supervisord"]

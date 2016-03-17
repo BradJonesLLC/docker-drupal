@@ -15,9 +15,6 @@ stop:
 status:  
 	@docker-compose ps
 
-cli:  
-	@docker-compose run --rm web bash
-
 restart:  
 	@docker-compose stop
 	@docker-compose start
@@ -25,4 +22,4 @@ restart:
 make-data:
 	@docker create --name drupal_data -v /var/lib/mysql debian:latest /bin/true
 
-.PHONY: clean start stop status cli restart make-data build
+.PHONY: clean start stop status restart make-data build

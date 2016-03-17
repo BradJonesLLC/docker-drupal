@@ -40,7 +40,6 @@ speed development in a containerized environment and production deployment.
   - In development mode, enables Mailcatcher, and Xdebug for Apache, and
     toggles inclusion of `settings.local.php` and `development.services.yml`
   - `SSL`, if set to `FALSE`, disables SSL support (useful for development environments.)
-+ Native SSL support (see below.)
 + A `Makefile` for quickly creating a data container for the mysql container (run `make make-data`)
 + Wrapper scripts:
   - `ddrush`, for executing [drush](https://github.com/drush-ops/drush) inside the
@@ -75,7 +74,8 @@ so while you are shipping a slightly-larger container, this setup avoids the nee
 a "Development-only" Dockerfile.
 
 ## Development Workflow
-**TL;DR:** Leverage composer as much as possible for managing your project.
+**TL;DR:** Leverage composer as much as possible for managing your project. The
+drupal-project README is very helpful on this point (see above.)
 
 While a wrapper is provided for running drush inside the container, avoid using
 commands like `drush dl`. When using the default `docker-compose.yml` file, we
@@ -108,9 +108,8 @@ request, and initiate a corresponding listening session in your IDE on port 9000
 The provided PhpStorm configuration means you can just click the phone icon and go!
 
 ### Updating Drupal core
-Use [the method provided by drupal-project](https://github.com/drupal-composer/drupal-project#updating-drupal-core),
-which can use the copy of drush in `bin/vendor` which is included in the PATH via
-the `.envrc` file.
+drupal-project's post-install command will ensure your Drupal core "scaffolding"
+files are kept in sync with upstream. See drupal-project's README.
 
 ### What about Drupal 8 configuration?
 To ship/version a copy of your site with exported configuration, dump the config
@@ -136,9 +135,9 @@ import of your exported configuration files), remove the `db` database container
 then the `drupal_data` container.
 
 ## SSL Support
-To enable SSL, make sure your `SSL` environment variable is not `FALSE` (as is default
-in the shipped docker-compose.yml file) and [mount](https://docs.docker.com/userguide/dockervolumes)
-`server.key` and `server.crt` files into the container at `/usr/local/apache2/ssl/`.
+SSL termination is no longer bundled. In the spirit of Docker containers doing
+one task well, consider using [a proxy container](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion)
+in conjunction with a free [Let's Encrypt](https://letsencrypt.org/) certificate.
 
 ## Production Deployment
 ### Data Permanence
@@ -150,7 +149,7 @@ so user and system-generated files are preserved.
 ## Requirements
 - [Docker](https://docker.com)
 - [Docker Compose](https://docs.docker.com/compose/), for running containers locally.
-- Linux or similar virtualized (e.g., Boot2Docker) environment with bash shell. Perhaps [Docker Toolbox](https://docs.docker.com/toolbox/overview/) will help if you're on Windows or Mac?
+- Linux or similar virtualized environment with bash shell. Perhaps [Docker Toolbox](https://docs.docker.com/toolbox/overview/) will help if you're on Windows or Mac?
 - A local installation of [composer](http://getcomposer.org/)
 
 ### Highly Recommended
@@ -173,8 +172,6 @@ There are a few other Drupal/Docker projects, though most appear focused on Drup
 - [bowline](https://github.com/davenuman/bowline)
 
 A few options for production deployment:
-- [Maestro](https://github.com/signalfuse/maestro-ng) - Probably the easiest
-  option for a small/single-machine host environment
 - [Docker Machine](https://docs.docker.com/machine/)
 - [Docker Swarm](https://docs.docker.com/swarm/install-w-machine/)
 
