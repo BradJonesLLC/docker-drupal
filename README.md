@@ -2,7 +2,7 @@
 
 ## Purpose
 This script is intended for one-time, initial scaffolding of a new [Drupal 8](http://drupal.org) project,
-which would then be self-contained. It uses the [drupal-project](https://github.com/drupal-composer/drupal-project)
+which would then be self-contained. It uses a `composer.json` file derived from [drupal-project](https://github.com/drupal-composer/drupal-project)
 to pull in Drupal core, and provides additional helpful Docker-focused functionality.
 The drupal-project `composer.json` file and helper scripts can then be used to manage
 core updates, contrib modules and more. Drupal 8, with its robust exportable configuration
@@ -10,10 +10,14 @@ file management and composer integration, is uniquely suited for containerized d
 
 ## Usage/Quick-Start
 ```
-curl -sS https://raw.githubusercontent.com/BradJonesLLC/docker-drupal/master/install.sh | bash -s PROJECT-NAME
+composer create-project drupal-composer/drupal-project:8.x-dev project-dir --stability dev --no-interaction
 ```
-...Will install into a new directory named PROJECT-NAME and configure certain docker-compose helpers with that
-same name.
+...Will install into a new directory named `project-dir`.
+```
+cd project-dir && ./install.sh
+```
+...Will run some additional helpful development scaffolding (see below.) This step
+is optional but may help in kickstarting your development.
 
 ### Default addresses and command examples
 - Start for first time; create data container, install Drupal: `make make-data && docker-compose up`

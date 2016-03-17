@@ -1,3 +1,0 @@
-#!/bin/bash
-
-docker exec -ti -u www-data "$COMPOSE_PROJECT_NAME"_web_1 bash
