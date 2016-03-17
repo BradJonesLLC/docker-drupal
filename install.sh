@@ -11,4 +11,4 @@ cat config/drupal/settings.php >> web/sites/default/settings.php \
 && sed -i 's/\.idea/\#.idea/g' .gitignore \
 && cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 74 | head -n 1 > config/docker/web/drupal-salt.txt \
 && printf "\n=============================\n" \
-&& printf "Your site is scaffolded. Run\n\t'cd $1 && make make-data && docker-compose up'\nto spin up for the first time.\n"
+&& printf "Your site is scaffolded. Run\n\t'make make-data && docker-compose up'\nto spin up for the first time.\n"
