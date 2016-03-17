@@ -1,0 +1,12 @@
+{
+  "name": "bradjonesllc/docker-drupal",
+  "description": "Project template for Drupal 8 with Composer and Docker",
+  "type": "project",
+  "license": "GPL-2.0+",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packagist.drupal-composer.org"
+    }
+  ]
+}
