@@ -2,7 +2,7 @@
 
 ## Purpose
 This script is intended for one-time, initial scaffolding of a new [Drupal 8](http://drupal.org) project,
-which would then be self-contained. It uses the [drupal-project](https://github.com/drupal-composer/drupal-project)
+which would then be self-contained. It uses a `composer.json` file derived from [drupal-project](https://github.com/drupal-composer/drupal-project)
 to pull in Drupal core, and provides additional helpful Docker-focused functionality.
 The drupal-project `composer.json` file and helper scripts can then be used to manage
 core updates, contrib modules and more. Drupal 8, with its robust exportable configuration
@@ -10,10 +10,14 @@ file management and composer integration, is uniquely suited for containerized d
 
 ## Usage/Quick-Start
 ```
-curl -sS https://raw.githubusercontent.com/BradJonesLLC/docker-drupal/master/install.sh | bash -s PROJECT-NAME
+composer create-project bradjonesllc/docker-drupal:8.x-dev project-dir --stability dev --no-interaction
 ```
-...Will install into a new directory named PROJECT-NAME and configure certain docker-compose helpers with that
-same name.
+...Will install into a new directory named `project-dir`.
+```
+cd project-dir && ./install.sh
+```
+...Will run some additional helpful development scaffolding (see below.) This step
+is optional but may help in kickstarting your development.
 
 ### Default addresses and command examples
 - Start for first time; create data container, install Drupal: `make make-data && docker-compose up`
@@ -36,7 +40,6 @@ speed development in a containerized environment and production deployment.
   - In development mode, enables Mailcatcher, and Xdebug for Apache, and
     toggles inclusion of `settings.local.php` and `development.services.yml`
   - `SSL`, if set to `FALSE`, disables SSL support (useful for development environments.)
-+ Native SSL support (see below.)
 + A `Makefile` for quickly creating a data container for the mysql container (run `make make-data`)
 + Wrapper scripts:
   - `ddrush`, for executing [drush](https://github.com/drush-ops/drush) inside the
@@ -71,7 +74,8 @@ so while you are shipping a slightly-larger container, this setup avoids the nee
 a "Development-only" Dockerfile.
 
 ## Development Workflow
-**TL;DR:** Leverage composer as much as possible for managing your project.
+**TL;DR:** Leverage composer as much as possible for managing your project. The
+drupal-project README is very helpful on this point (see above.)
 
 While a wrapper is provided for running drush inside the container, avoid using
 commands like `drush dl`. When using the default `docker-compose.yml` file, we
@@ -104,9 +108,8 @@ request, and initiate a corresponding listening session in your IDE on port 9000
 The provided PhpStorm configuration means you can just click the phone icon and go!
 
 ### Updating Drupal core
-Use [the method provided by drupal-project](https://github.com/drupal-composer/drupal-project#updating-drupal-core),
-which can use the copy of drush in `bin/vendor` which is included in the PATH via
-the `.envrc` file.
+drupal-project's post-install command will ensure your Drupal core "scaffolding"
+files are kept in sync with upstream. See drupal-project's README.
 
 ### What about Drupal 8 configuration?
 To ship/version a copy of your site with exported configuration, dump the config
@@ -132,9 +135,9 @@ import of your exported configuration files), remove the `db` database container
 then the `drupal_data` container.
 
 ## SSL Support
-To enable SSL, make sure your `SSL` environment variable is not `FALSE` (as is default
-in the shipped docker-compose.yml file) and [mount](https://docs.docker.com/userguide/dockervolumes)
-`server.key` and `server.crt` files into the container at `/usr/local/apache2/ssl/`.
+SSL termination is no longer bundled. In the spirit of Docker containers doing
+one task well, consider using [a proxy container](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion)
+in conjunction with a free [Let's Encrypt](https://letsencrypt.org/) certificate.
 
 ## Production Deployment
 ### Data Permanence
@@ -146,7 +149,7 @@ so user and system-generated files are preserved.
 ## Requirements
 - [Docker](https://docker.com)
 - [Docker Compose](https://docs.docker.com/compose/), for running containers locally.
-- Linux or similar virtualized (e.g., Boot2Docker) environment with bash shell. Perhaps [Docker Toolbox](https://docs.docker.com/toolbox/overview/) will help if you're on Windows or Mac?
+- Linux or similar virtualized environment with bash shell. Perhaps [Docker Toolbox](https://docs.docker.com/toolbox/overview/) will help if you're on Windows or Mac?
 - A local installation of [composer](http://getcomposer.org/)
 
 ### Highly Recommended
@@ -169,8 +172,6 @@ There are a few other Drupal/Docker projects, though most appear focused on Drup
 - [bowline](https://github.com/davenuman/bowline)
 
 A few options for production deployment:
-- [Maestro](https://github.com/signalfuse/maestro-ng) - Probably the easiest
-  option for a small/single-machine host environment
 - [Docker Machine](https://docs.docker.com/machine/)
 - [Docker Swarm](https://docs.docker.com/swarm/install-w-machine/)
 
