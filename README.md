@@ -10,7 +10,7 @@ file management and composer integration, is uniquely suited for containerized d
 
 ## Usage/Quick-Start
 ```
-composer create-project drupal-composer/drupal-project:8.x-dev project-dir --stability dev --no-interaction
+composer create-project bradjonesllc/docker-drupal:8.x-dev project-dir --stability dev --no-interaction
 ```
 ...Will install into a new directory named `project-dir`.
 ```
