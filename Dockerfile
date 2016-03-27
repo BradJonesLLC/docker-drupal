@@ -50,9 +50,10 @@ RUN a2ensite 000-default.conf
 COPY . /var/www/html
 RUN composer install -d /var/www/html
 RUN ln -s ~www-data/html/vendor/bin/drush /usr/local/bin/drush
-RUN ln -s ~www-data/html/vendor/bin/console /usr/local/bin/console
+RUN ln -s ~www-data/html/vendor/bin/drupal /usr/local/bin/drupal
 COPY config/docker/web/drushrc.php /etc/drush/drushrc.php
 COPY config/docker/web/xdebug.sh /var/www/xdebug.sh
+COPY config/docker/web/php.ini /usr/local/etc/php/php.ini
 
 RUN cp -R vendor/twig/twig/ext/twig /usr/lib/twig
 WORKDIR /usr/lib/twig
