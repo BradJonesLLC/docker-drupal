@@ -22,7 +22,6 @@ is optional but may help in kickstarting your development.
 ### Default addresses and command examples
 - Start for first time; create data container, install Drupal: `make make-data && docker-compose up`
 - Web: `http://localhost:8082`
-- Mailcatcher: `http://localhost:1082`
 - Get a login for uid 1, after install: `ddrush uli`
 
 ## Features
@@ -37,9 +36,8 @@ speed development in a containerized environment and production deployment.
     if present.
   - Sensible default `settings.php`, `settings.local.php` and `development.services.yml` files.
 + Scripts respond to environment variables, with defaults in the docker-compose.yml file:
-  - In development mode, enables Mailcatcher, and Xdebug for Apache, and
+  - In development mode, enables Xdebug for Apache, and
     toggles inclusion of `settings.local.php` and `development.services.yml`
-  - `SSL`, if set to `FALSE`, disables SSL support (useful for development environments.)
 + A `Makefile` for quickly creating a data container for the mysql container (run `make make-data`)
 + Wrapper scripts:
   - `ddrush`, for executing [drush](https://github.com/drush-ops/drush) inside the
@@ -49,7 +47,6 @@ speed development in a containerized environment and production deployment.
   - Tells wrapper scripts the correct container to execute against (by pattern).
   - Includes the wrapper script and the `vendor/bin` directory into the PATH.
 + Xdebug for development, and all invocations of the `ddrush` helper script
-+ [Mailcatcher](http://mailcatcher.me/) for debugging sent mail.
 + `.dockerignore` excludes VCS and uploaded files. Docker runs `composer install`
   inside the container on build, though if your development environment includes
   many of those files, having them copied into the container saves some time on
@@ -68,8 +65,8 @@ speed development in a containerized environment and production deployment.
   development mode. Set the `SITE_URL` environment variable, so Drupal constructs
   appropriate self-referential URLs during cron.
 
-### Why ship with Xdebug and Mailcatcher? Won't they waste resources in production?
-Xdebug and Mailcatcher are not loaded/started when in development mode (see below),
+### Why ship with Xdebug? Won't it waste resources in production?
+Xdebug is not loaded/started when in development mode (see below),
 so while you are shipping a slightly-larger container, this setup avoids the need for
 a "Development-only" Dockerfile.
 
