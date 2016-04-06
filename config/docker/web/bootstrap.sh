@@ -6,6 +6,8 @@ done
 
 if [[ $ENVIRONMENT == 'DEV' ]]; then
   cp /docker/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+else
+  rm /usr/local/etc/php/conf.d/xdebug.ini
 fi
 
 cd /var/www/html/web
