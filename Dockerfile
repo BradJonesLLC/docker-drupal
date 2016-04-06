@@ -15,8 +15,6 @@ RUN apt-get install -yqq --no-install-recommends \
   libsqlite3-dev \
   build-essential \
   git \
-  ruby \
-  ruby-dev \
   libfreetype6-dev \
   libjpeg62-turbo-dev \
   libpng12-dev \
@@ -34,8 +32,6 @@ RUN apt-get install -yqq --no-install-recommends \
   && apt-get clean autoclean && apt-get autoremove -y
 
 RUN php -r "readfile('https://getcomposer.org/installer');" | php && mv composer.phar /usr/local/bin/composer
-
-RUN gem install mailcatcher
 
 COPY config/docker/web/rsyslog.conf /etc/rsyslog.conf
 

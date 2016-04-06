@@ -3,8 +3,7 @@
 web:
   build: . # Can't be below this since we have to add files in public/
   ports:
-   - "127.0.0.1:8082:80"    # Web
-   - "127.0.0.1:1081:1080"  # Mailcatcher
+   - "127.0.0.1:8082:80"
   volumes:
    - .:/var/www/html
   links:
