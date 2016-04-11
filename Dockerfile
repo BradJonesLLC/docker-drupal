@@ -2,8 +2,7 @@
 
 FROM php:5.5-apache
 
-RUN apt-get update
-RUN apt-get install -yqq --no-install-recommends \
+RUN apt-get update && apt-get install -yqq --no-install-recommends \
   rsyslog \
   supervisor \
   curl \
