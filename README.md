@@ -13,14 +13,9 @@ file management and composer integration, is uniquely suited for containerized d
 composer create-project bradjonesllc/docker-drupal:master project-dir --stability dev --no-interaction
 ```
 ...Will install into a new directory named `project-dir`.
-```
-cd project-dir && ./install.sh
-```
-...Will run some additional helpful development scaffolding (see below.) This step
-is optional but may help in kickstarting your development.
 
 ### Default addresses and command examples
-- Start for first time; create data container, install Drupal: `make make-data && docker-compose up`
+- Start for first time; create data container, install Drupal: `docker-compose up`
 - Web: `http://localhost:8082`
 - Get a login for uid 1, after install: `ddrush uli`
 
@@ -30,7 +25,7 @@ speed development in a containerized environment and production deployment.
 + A `Dockerfile` that includes all required and some suggested PHP extensions for Drupal 8
   (including the [Twig extension](http://twig.sensiolabs.org/doc/installation.html#installing-the-c-extension))
 + A quick-start [Docker Compose](https://docs.docker.com/compose/) file, which provides
-  an Apache/PHP web container and mysql container
+  an Apache/PHP web container, mysql container and data volume.
 + Site installation with:
   - Optional force-set of an existing site UUID and import of configuration files,
     if present.
@@ -38,7 +33,6 @@ speed development in a containerized environment and production deployment.
 + Scripts respond to environment variables, with defaults in the docker-compose.yml file:
   - In development mode, enables Xdebug for Apache, and
     toggles inclusion of `settings.local.php` and `development.services.yml`
-+ A `Makefile` for quickly creating a data container for the mysql container (run `make make-data`)
 + Wrapper scripts:
   - `ddrush`, for executing [drush](https://github.com/drush-ops/drush) inside the
     web container, with a starter global `/etc/drush/drushrc.php` file.
