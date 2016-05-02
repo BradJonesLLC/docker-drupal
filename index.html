@@ -35,29 +35,20 @@ file management and composer integration, is uniquely suited for containerized d
 <h2>
 <a id="usagequick-start" class="anchor" href="#usagequick-start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage/Quick-Start</h2>
 
-<pre><code>composer create-project bradjonesllc/docker-drupal:master project-dir --stability dev --no-interaction
+<pre><code>composer create-project bradjonesllc/docker-drupal project-dir
 </code></pre>
 
 <p>...Will install into a new directory named <code>project-dir</code>.</p>
-
-<pre><code>cd project-dir &amp;&amp; ./install.sh
-</code></pre>
-
-<p>...Will run some additional helpful development scaffolding (see below.) This step
-is optional but may help in kickstarting your development.</p>
 
 <h3>
 <a id="default-addresses-and-command-examples" class="anchor" href="#default-addresses-and-command-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default addresses and command examples</h3>
 
 <ul>
-<li>Start for first time; create data container, install Drupal: <code>make make-data &amp;&amp; docker-compose up</code>
+<li>Start for first time; install Drupal: <code>docker-compose up</code>
 </li>
 <li>Web: <code>http://localhost:8082</code>
 </li>
-<li>Mailcatcher: <code>http://localhost:1082</code>
-</li>
-<li>Get a login for uid 1, after install: <code>ddrush uli</code>
-</li>
+<li>Get a login for uid 1, after install: <code>ddrush uli</code> (with <code>direnv</code>, see below.)</li>
 </ul>
 
 <h2>
@@ -82,14 +73,11 @@ if present.</li>
 <li>Scripts respond to environment variables, with defaults in the docker-compose.yml file:
 
 <ul>
-<li>In development mode, enables Mailcatcher, and Xdebug for Apache, and
+<li>In development mode, enables Xdebug for Apache, and
 toggles inclusion of <code>settings.local.php</code> and <code>development.services.yml</code>
 </li>
-<li>
-<code>SSL</code>, if set to <code>FALSE</code>, disables SSL support (useful for development environments.)</li>
 </ul>
 </li>
-<li>A <code>Makefile</code> for quickly creating a data container for the mysql container (run <code>make make-data</code>)</li>
 <li>Wrapper scripts:
 
 <ul>
@@ -108,8 +96,6 @@ web container, with a starter global <code>/etc/drush/drushrc.php</code> file.</
 </ul>
 </li>
 <li>Xdebug for development, and all invocations of the <code>ddrush</code> helper script</li>
-<li>
-<a href="http://mailcatcher.me/">Mailcatcher</a> for debugging sent mail.</li>
 <li>
 <code>.dockerignore</code> excludes VCS and uploaded files. Docker runs <code>composer install</code>
 inside the container on build, though if your development environment includes
