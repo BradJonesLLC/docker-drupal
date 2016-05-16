@@ -7,8 +7,6 @@ RUN apt-get update && apt-get install -yqq --no-install-recommends \
   git \
   && apt-get clean autoclean && apt-get autoremove -y
 
-COPY config/docker/web/rsyslog.conf /etc/rsyslog.conf
-
 COPY config/docker/web/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 COPY config/docker/web/crontab.txt /var/crontab.txt
