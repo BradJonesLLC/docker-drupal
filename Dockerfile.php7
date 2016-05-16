@@ -16,11 +16,12 @@ RUN apt-get update && apt-get install -yqq --no-install-recommends \
   && a2enmod expires \
   && a2enmod headers \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-  && docker-php-ext-install mysqli pdo_mysql zip mbstring gd exif pcntl \
+  && docker-php-ext-install mysqli pdo_mysql zip mbstring gd exif pcntl opcache \
   && pecl install apcu xdebug \
-  && echo "apc.rfc1867 = 1" > /usr/local/etc/php/conf.d/uploadprogress.ini \
+  && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini \
   && apt-get clean autoclean && apt-get autoremove -y
 
+COPY config /var/www/html
 COPY config/docker/web/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 COPY config/docker/web/default.conf /etc/apache2/sites-available/000-default.conf
@@ -28,6 +29,7 @@ RUN a2ensite 000-default.conf
 
 COPY config/docker/web/bootstrap.sh /bootstrap.sh
 COPY config/docker/web/xdebug.sh /var/www/xdebug.sh
+COPY config/docker/web/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 EXPOSE 80
 
