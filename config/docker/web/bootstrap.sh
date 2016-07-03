@@ -4,13 +4,9 @@ for dn in `cat /var/www/html/config/docker/web/web-writeable.txt`; do
   chown -R www-data /var/www/html/$dn
 done
 
-if [[ $ENVIRONMENT == 'DEV' ]]; then
-  cp /var/www/html/config/docker/web/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-else
-  rm /usr/local/etc/php/conf.d/xdebug.ini
-fi
-
 cd /var/www/html/web
+
+rm /usr/local/etc/php/conf.d/xdebug.ini || true
 
 /var/www/html/config/docker/web/wait-for-db.sh
 
@@ -24,7 +20,8 @@ if [[ -n "$DRUPAL_INSTALL" && ! `drush cget system.site uuid` ]]; then
   unset INSTALL_ACTIVE
 fi
 
-drush updb -y
-drush entity-updates -y
+if [[ $ENVIRONMENT == 'DEV' ]]; then
+  cp /var/www/html/config/docker/web/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+fi
 
 apache2-foreground
