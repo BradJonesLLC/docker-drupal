@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -yqq --no-install-recommends \
   && docker-php-ext-install mysqli pdo_mysql zip mbstring gd exif pcntl opcache \
   && pecl install apcu xdebug \
   && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini \
-  && apt-get clean autoclean && apt-get autoremove -y
+  && apt-get clean autoclean && apt-get autoremove -y \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/Jan-E/uploadprogress.git /tmp/php-uploadprogress && \
   cd /tmp/php-uploadprogress && \
