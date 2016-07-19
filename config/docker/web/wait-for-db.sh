@@ -7,7 +7,8 @@ echoerr() { echo "$@" 1>&2; }
 
 echoerr wait-for-db: waiting for db:3306
 
-timeout 15 bash <<EOT
+TIMEOUT=60
+timeout "$TIMEOUT" bash <<EOT
 while ! (echo > /dev/tcp/db/3306) >/dev/null 2>&1;
     do sleep 1;
 done;
@@ -19,5 +20,5 @@ if [ $RESULT -eq 0 ]; then
   sleep 1
   echoerr wait-for-db: done
 else
-  echoerr wait-for-db: timeout out after 15 seconds waiting for db:3306
+  echoerr wait-for-db: timeout out after "$TIMEOUT" seconds waiting for db:3306
 fi

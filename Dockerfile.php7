@@ -1,0 +1,48 @@
+# Docker container for Drupal 8
+
+FROM php:7-apache
+
+RUN apt-get update && apt-get install -yqq --no-install-recommends \
+  rsyslog \
+  supervisor \
+  cron \
+  mysql-client \
+  libpng-dev \
+  libfreetype6-dev \
+  libjpeg62-turbo-dev \
+  libpng12-dev \
+  locales \
+  git \
+  && a2enmod rewrite \
+  && a2enmod expires \
+  && a2enmod headers \
+  && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+  && docker-php-ext-install mysqli pdo_mysql zip mbstring gd exif pcntl opcache \
+  && pecl install apcu xdebug \
+  && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini \
+  && apt-get clean autoclean && apt-get autoremove -y \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/Jan-E/uploadprogress.git /tmp/php-uploadprogress && \
+  cd /tmp/php-uploadprogress && \
+  phpize && \
+  ./configure --prefix=/usr && \
+  make && \
+  make install && \
+  echo 'extension=uploadprogress.so' > /usr/local/etc/php/conf.d/uploadprogress.ini && \
+  rm -rf /tmp/*
+
+COPY config /var/www/html
+COPY config/docker/web/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+COPY config/docker/web/default.conf /etc/apache2/sites-available/000-default.conf
+RUN a2ensite 000-default.conf
+
+COPY config/docker/web/bootstrap.sh /bootstrap.sh
+COPY config/docker/web/xdebug.sh /var/www/xdebug.sh
+COPY config/docker/web/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY config/docker/web/rsyslog.conf /etc/rsyslog.conf
+
+EXPOSE 80
+
+CMD ["/usr/bin/supervisord"]
