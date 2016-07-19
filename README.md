@@ -17,13 +17,12 @@ composer create-project bradjonesllc/docker-drupal:master project-dir --stabilit
 ### Default addresses and command examples
 - Start for first time; create data container, install Drupal: `docker-compose up`
 - Web: `http://localhost:8082`
-- Get a login for uid 1, after install: `ddrush uli`
+- Get a login for uid 1, after install: `docker-compose exec web drush uli` (See below for shortcut options)
 
 ## Features
 Your new Drupal 8 site comes with a number of helper scripts and config files that
 speed development in a containerized environment and production deployment.
-+ A `Dockerfile` that includes all required and some suggested PHP extensions for Drupal 8
-  (including the [Twig extension](http://twig.sensiolabs.org/doc/installation.html#installing-the-c-extension))
++ A `Dockerfile` that includes all required PHP extensions for Drupal 8
 + A quick-start [Docker Compose](https://docs.docker.com/compose/) file, which provides
   an Apache/PHP web container, mysql container and data volume.
 + Site installation with:
@@ -170,4 +169,4 @@ A few options for production deployment:
 - [Docker group on groups.drupal.org](https://groups.drupal.org/docker)
 
 ## Copyright and License
-&copy; Brad Jones LLC. Licensed under GPL 2.
+&copy; 2016, Brad Jones LLC. Licensed under GPL 2.
