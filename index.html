@@ -44,7 +44,7 @@ file management and composer integration, is uniquely suited for containerized d
 <h2>
 <a id="usagequick-start" class="anchor" href="#usagequick-start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage/Quick-Start</h2>
 
-<pre><code>composer create-project bradjonesllc/docker-drupal project-dir
+<pre><code>composer create-project bradjonesllc/docker-drupal:master project-dir --no-interaction
 </code></pre>
 
 <p>...Will install into a new directory named <code>project-dir</code>.</p>
@@ -53,11 +53,11 @@ file management and composer integration, is uniquely suited for containerized d
 <a id="default-addresses-and-command-examples" class="anchor" href="#default-addresses-and-command-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default addresses and command examples</h3>
 
 <ul>
-<li>Start for first time; install Drupal: <code>docker-compose up</code>
+<li>Start for first time; create data container, install Drupal: <code>docker-compose up</code>
 </li>
 <li>Web: <code>http://localhost:8082</code>
 </li>
-<li>Get a login for uid 1, after install: <code>ddrush uli</code> (with <code>direnv</code>, see below.)</li>
+<li>Get a login for uid 1, after install: <code>docker-compose exec web drush uli</code> (See below for shortcut options)</li>
 </ul>
 
 <h2>
@@ -67,9 +67,9 @@ file management and composer integration, is uniquely suited for containerized d
 speed development in a containerized environment and production deployment.</p>
 
 <ul>
-<li>A <code>Dockerfile</code> that includes all required PHP extensions for Drupal 8.</li>
+<li>A <code>Dockerfile</code> that includes all required PHP extensions for Drupal 8</li>
 <li>A quick-start <a href="https://docs.docker.com/compose/">Docker Compose</a> file, which provides
-an Apache/PHP web container and mysql container</li>
+an Apache/PHP web container, mysql container and data volume.</li>
 <li>Site installation with:
 
 <ul>
@@ -126,9 +126,29 @@ appropriate self-referential URLs during cron.</li>
 </ul>
 
 <h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li><a href="https://docker.com">Docker</a></li>
+<li>
+<a href="https://docs.docker.com/compose/">Docker Compose</a>, for running containers locally.</li>
+<li>Linux or similar virtualized environment with bash shell. Perhaps <a href="https://docs.docker.com/toolbox/overview/">Docker Toolbox</a> will help if you're on Windows or Mac?</li>
+<li>A local installation of <a href="http://getcomposer.org/">composer</a>
+</li>
+</ul>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Issues and pull requests welcome; Both Drupal 8 and Docker are relatively new and
+fast-moving projects. There doesn't appear to be many other comprehensive starterkits
+for Docker and Drupal, so this is my effort at helping others avoid my steep learning
+curve on this front.</p>
+
+<h2>
 <a id="copyright-and-license" class="anchor" href="#copyright-and-license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copyright and License</h2>
 
-<p>© Brad Jones LLC. Licensed under GPL 2.</p>
+<p>© 2016, Brad Jones LLC. Licensed under GPL 2.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/BradJonesLLC">BradJonesLLC</a></p>
