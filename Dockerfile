@@ -1,6 +1,6 @@
 # Docker container for Drupal 8
 
-FROM bradjonesllc/php7-apache
+FROM bradjonesllc/docker-drupal:php7-apache
 
 RUN apt-get update && apt-get install -yqq --no-install-recommends \
   rsync \
