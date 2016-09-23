@@ -1,5 +1,8 @@
 # Docker Scaffolding for Drupal 8
 
+[![Docker Automated buil](https://img.shields.io/docker/automated/bradjonesllc/docker-drupal.svg?maxAge=2592000)](https://hub.docker.com/r/bradjonesllc/docker-drupal)
+[![Packagist](https://img.shields.io/packagist/v/bradjonesllc/docker-drupal.svg?maxAge=2592000)](https://packagist.org/packages/bradjonesllc/docker-drupal)
+
 ## Purpose
 This script is intended for one-time, initial scaffolding of a new [Drupal 8](http://drupal.org) project,
 which would then be self-contained. It uses a `composer.json` file derived from [drupal-project](https://github.com/drupal-composer/drupal-project)
