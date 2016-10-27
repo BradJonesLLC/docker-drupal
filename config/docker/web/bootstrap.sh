@@ -1,4 +1,7 @@
 #!/bin/bash
+
+printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /cron-env
+
 for dn in `cat /var/www/html/config/docker/web/web-writeable.txt`; do
   [ -d /var/www/html/$dn ] || mkdir /var/www/html/$dn
   chown -R www-data /var/www/html/$dn
