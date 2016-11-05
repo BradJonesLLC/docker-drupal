@@ -13,9 +13,9 @@ file management and composer integration, is uniquely suited for containerized d
 
 ## Usage/Quick-Start
 ```
-composer create-project bradjonesllc/docker-drupal:master project-dir --stability dev --no-interaction
+composer create-project  --stability dev --no-interaction --ignore-platform-reqs bradjonesllc/docker-drupal:dev-master PROJECT-DIR
 ```
-...Will install into a new directory named `project-dir`.
+...Will install into a new directory named `PROJECT-DIR`.
 
 ### Default addresses and command examples
 - Start for first time; create data container, install Drupal: `docker-compose up`

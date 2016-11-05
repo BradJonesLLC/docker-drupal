@@ -15,7 +15,7 @@ RUN crontab /var/crontab.txt && chmod 600 /etc/crontab
 COPY . /var/www/html
 
 RUN php -r "readfile('https://getcomposer.org/installer');" | php && mv composer.phar /usr/local/bin/composer
-RUN composer install -d /var/www/html
+RUN composer install -d /var/www/html --prefer-dist
 RUN ln -s ~www-data/html/vendor/bin/drush /usr/local/bin/drush
 RUN ln -s ~www-data/html/vendor/bin/drupal /usr/local/bin/drupal
 
