@@ -2,6 +2,11 @@
 
 printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /cron-env
 
+if [[ ! -f /etc/.htpasswd && -n "$HTPASSWD_PASSWORD" ]]; then
+    printf "$HTPASSWD_USER:$(openssl passwd -crypt $HTPASSWD_PASSWORD)\n" >> /etc/.htpasswd
+    printf "Enabled HTTP Basic Authentication.\n"
+fi
+
 for dn in `cat /var/www/html/config/docker/web/web-writeable.txt`; do
   [ -d /var/www/html/$dn ] || mkdir /var/www/html/$dn
   chown -R www-data /var/www/html/$dn

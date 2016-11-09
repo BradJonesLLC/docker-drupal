@@ -60,6 +60,9 @@ speed development in a containerized environment and production deployment.
 + A default cron implementation via crontab, which runs only when not in
   development mode. Set the `SITE_URL` environment variable, so Drupal constructs
   appropriate self-referential URLs during cron.
++ Support for site-wide HTTP Basic authentication when the `HTPASSWD_USER`
+  and `HTPASSWD_PASSWORD` environment variables are set, e.g., for a
+  staging site. (Or mount in your own `/etc/.htpasswd` file to use.)
 
 ### Why ship with Xdebug? Won't it waste resources in production?
 Xdebug is not loaded/started when in development mode (see below),
