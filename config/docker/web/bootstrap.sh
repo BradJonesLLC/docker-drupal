@@ -21,9 +21,14 @@ rm /usr/local/etc/php/conf.d/xdebug.ini || true
 if [[ -n "$DRUPAL_INSTALL" && ! `drush cget system.site uuid` ]]; then
   printf "Installing Drupal.\n"
   export INSTALL_ACTIVE=TRUE
-  cmd="drush site-install -y minimal"
+  chown www-data /var/www/html/web/sites/default/settings.php
+  chmod u+w /var/www/html/web/sites/default/settings.php
+  cmd="drupal site:install --force --no-interaction --no-ansi minimal"
   CONFIG_DIR=/var/www/html/config/drupal/sync
-  if [[ -f "${CONFIG_DIR}/system.site.yml" ]]; then cmd="$cmd --config-dir=${CONFIG_DIR}"; fi
+  if [[ -f "${CONFIG_DIR}/system.site.yml" ]]; then
+    uuid=`drupal yaml:get:value ${CONFIG_DIR}/system.site.yml uuid`
+    cmd="$cmd && drush cset -y system.site uuid $uuid && drush config-import -y"
+  fi
   eval "$cmd"
   unset INSTALL_ACTIVE
 fi
