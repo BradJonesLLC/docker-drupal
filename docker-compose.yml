@@ -14,8 +14,8 @@ services:
      - ENVIRONMENT=DEV
      - DRUPAL_INSTALL=TRUE
      - SITE_URL=http://localhost:8082
-     - HTPASSWD_USER=${HTPASSWD_USER}
-     - HTPASSWD_PASSWORD=${HTPASSWD_PASSWORD}
+     - HTPASSWD_USER
+     - HTPASSWD_PASSWORD
   db:
     image: mysql:5.7
     environment:

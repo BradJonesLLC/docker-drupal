@@ -40,7 +40,15 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-      "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "ext-curl": "1",
+            "ext-mbstring": "1",
+            "ext-dom": "1",
+            "ext-xmlwriter": "1",
+            "ext-simplexml": "1",
+            "php": "7.0"
+        }
     },
     "autoload": {
         "classmap": [
