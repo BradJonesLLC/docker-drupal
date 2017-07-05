@@ -69,7 +69,8 @@
         ],
         "post-update-cmd": [
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
-        ]
+        ],
+        "post-create-project-cmd": "sh scripts/composer/install.sh"
     },
     "extra": {
         "installer-paths": {
