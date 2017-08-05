@@ -7,11 +7,6 @@ if [[ ! -f /etc/.htpasswd && -n "$HTPASSWD_PASSWORD" ]]; then
     printf "Enabled HTTP Basic Authentication.\n"
 fi
 
-for dn in `cat /var/www/html/config/docker/web/web-writeable.txt`; do
-  [ -d /var/www/html/$dn ] || mkdir /var/www/html/$dn
-  chown -R www-data /var/www/html/$dn
-done
-
 cd /var/www/html/web
 
 rm /usr/local/etc/php/conf.d/xdebug.ini || true
@@ -30,6 +25,11 @@ if [[ -n "$DRUPAL_INSTALL" && ! `drush cget system.site uuid` ]]; then
   eval "$cmd"
   unset INSTALL_ACTIVE
 fi
+
+for dn in `cat /var/www/html/config/docker/web/web-writeable.txt`; do
+  [ -d /var/www/html/$dn ] || mkdir /var/www/html/$dn
+  chown -R www-data /var/www/html/$dn
+done
 
 if [[ $ENVIRONMENT == 'DEV' ]]; then
   cp /var/www/html/config/docker/web/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
