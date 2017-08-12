@@ -2,8 +2,6 @@
 
 set -e
 
-printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /cron-env
-
 if [[ ! -f /etc/.htpasswd && -n "$HTPASSWD_PASSWORD" ]]; then
     printf "$HTPASSWD_USER:$(openssl passwd -crypt $HTPASSWD_PASSWORD)\n" >> /etc/.htpasswd
     printf "Enabled HTTP Basic Authentication.\n"
@@ -35,6 +33,10 @@ done
 
 if [[ $ENVIRONMENT == 'DEV' ]]; then
   cp /var/www/html/config/docker/web/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+else
+  export CRON_OK=TRUE
 fi
+
+printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /cron-env
 
 apache2-foreground
