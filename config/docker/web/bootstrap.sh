@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /cron-env
 
 if [[ ! -f /etc/.htpasswd && -n "$HTPASSWD_PASSWORD" ]]; then
