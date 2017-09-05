@@ -21,6 +21,11 @@ if [[ -n "$DRUPAL_INSTALL" && ! `drush cget system.site uuid` ]]; then
   if [[ -f "${CONFIG_DIR}/system.site.yml" ]]; then
     uuid=`drupal yaml:get:value ${CONFIG_DIR}/system.site.yml uuid`
     cmd="$cmd && drush cset -y system.site uuid $uuid && drush config-import -y"
+  else
+    # Not entirely contingent on having an exported config but implies that
+    # The site has not been fully scaffolded.
+    hash_salt=`drush php-eval "echo Drupal\Component\Utility\Crypt::randomBytesBase64(55);"`
+    echo "\$settings['hash_salt'] = \"$hash_salt\";" >> /var/www/html/web/sites/default/settings.php
   fi
   eval "$cmd"
   unset INSTALL_ACTIVE
