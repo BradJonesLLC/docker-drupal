@@ -1,3 +1,2 @@
 web/sites/default/files
-config/drupal/sync
 web/sites/simpletest
