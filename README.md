@@ -48,11 +48,7 @@ speed development in a containerized environment and production deployment.
   many of those files, having them copied into the container saves some time on
   build. See *Development Workflow*, below.
 + All processes in the web container log to `STDOUT`; this is useful if you wish to
-  aggregate your Docker container logs or integrate with an external log service
-  such as [Logentries](https://logentries.com/learnmore?code=e500f810).
-+ An optional `rsyslog.json.conf` file, which will format log output in JSON format;
-  this expects JSON output directly from Drupal; consider using a module like
-  [Syslog JSON](https://www.drupal.org/sandbox/bradjones1/2569795)
+  aggregate your Docker container logs or integrate with an external log service.
 + Default configuration files for [PhpStorm](https://www.jetbrains.com/phpstorm/),
   including a server configuration and path mapping for Xdebug and setting max
   debug connections == 10 for [compatibility with](https://github.com/drush-ops/drush/issues/1534)
@@ -167,12 +163,8 @@ There are a few other Drupal/Docker projects, though most appear focused on Drup
 - [drude](https://github.com/blinkreaction/drude)
 - [bowline](https://github.com/davenuman/bowline)
 
-A few options for production deployment:
-- [Docker Machine](https://docs.docker.com/machine/)
-- [Docker Swarm](https://docs.docker.com/swarm/install-w-machine/)
-
 ### Groups and Resources
 - [Docker group on groups.drupal.org](https://groups.drupal.org/docker)
 
 ## Copyright and License
-&copy; 2016, Brad Jones LLC. Licensed under GPL 2.
+&copy; 2016-2018, Brad Jones LLC. Licensed under GPL 2.

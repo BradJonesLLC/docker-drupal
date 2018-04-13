@@ -16,6 +16,7 @@ services:
      - SITE_URL=http://localhost:8082
      - HTPASSWD_USER
      - HTPASSWD_PASSWORD
+     - SERVER_ADMIN
   db:
     image: mysql:5.7
     environment:
