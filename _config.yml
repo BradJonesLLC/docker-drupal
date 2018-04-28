@@ -1,0 +1,8 @@
+title: Drupal on Docker
+description: Docker scaffolding for Drupal 8
+google_analytics: UA-68548029-2
+show_downloads: true
+theme: jekyll-theme-minimal
+
+gems:
+  - jekyll-mentions
