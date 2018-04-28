@@ -1,6 +1,6 @@
 # Docker container for Drupal 8
 
-FROM php:7.1-apache
+FROM php:7.2-apache
 
 RUN apt-get update && apt-get install -yqq --no-install-recommends \
   rsyslog \
@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -yqq --no-install-recommends \
   libpng-dev \
   libfreetype6-dev \
   libjpeg62-turbo-dev \
-  libpng12-dev \
+  libpng-dev \
   locales \
   git \
   ca-certificates \
@@ -21,30 +21,36 @@ RUN apt-get update && apt-get install -yqq --no-install-recommends \
   && docker-php-ext-install mysqli pdo_mysql zip mbstring gd exif pcntl opcache \
   && pecl install apcu xdebug \
   && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini \
-  && apt-get clean autoclean && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/Jan-E/uploadprogress.git /tmp/php-uploadprogress && \
+RUN git clone https://github.com/php/pecl-php-uploadprogress.git /tmp/php-uploadprogress && \
   cd /tmp/php-uploadprogress && \
   phpize && \
-  ./configure --prefix=/usr && \
+  ./configure --prefix=/usr --enable-uploadprogress && \
   make && \
   make install && \
   echo 'extension=uploadprogress.so' > /usr/local/etc/php/conf.d/uploadprogress.ini && \
   rm -rf /tmp/*
 
 COPY config /var/www/html
-COPY config/docker/web/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY config/docker/web/base/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-COPY config/docker/web/default.conf /etc/apache2/sites-available/000-default.conf
+COPY config/docker/web/base/default.conf /etc/apache2/sites-available/000-default.conf
 RUN a2ensite 000-default.conf
 
-COPY config/docker/web/drushrc.php /etc/drush/drushrc.php
-COPY config/docker/web/bootstrap.sh /bootstrap.sh
-COPY config/docker/web/xdebug.sh /var/www/xdebug.sh
-COPY config/docker/web/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
-COPY config/docker/web/rsyslog.conf /etc/rsyslog.conf
+COPY config/docker/web/base/drushrc.php /etc/drush/drushrc.php
+COPY config/docker/web/base/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY config/docker/web/base/rsyslog.conf /etc/rsyslog.conf
+COPY config/docker/web/base/crontab /etc/cron.d/drupal
+RUN chmod 600 /etc/cron.d/drupal && touch /cron-env
+COPY config/docker/web/base/php.ini /usr/local/etc/php/php.ini
+
+ENV PATH="/var/www/html/vendor/bin:${PATH}"
 
 EXPOSE 80
 
 CMD ["/usr/bin/supervisord"]
+
+ONBUILD ARG gitref=unknown
+ONBUILD ENV GITREF $gitref
+ONBUILD LABEL gitref $gitref

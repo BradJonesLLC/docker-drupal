@@ -11,7 +11,7 @@ cd /var/www/html/web
 
 rm /usr/local/etc/php/conf.d/xdebug.ini || true
 
-/var/www/html/config/docker/web/wait-for-db.sh
+/var/www/html/config/docker/web/base/wait-for-db.sh
 
 if [[ -n "$DRUPAL_INSTALL" && ! `drush cget system.site uuid` ]]; then
   printf "Installing Drupal.\n"
@@ -37,7 +37,7 @@ for dn in `cat /var/www/html/config/docker/web/web-writeable.txt`; do
 done
 
 if [[ $ENVIRONMENT == 'DEV' ]]; then
-  cp /var/www/html/config/docker/web/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+  cp /var/www/html/config/docker/web/base/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 else
   export CRON_OK=TRUE
 fi

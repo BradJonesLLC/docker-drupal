@@ -4,16 +4,27 @@
 [![Packagist](https://img.shields.io/packagist/v/bradjonesllc/docker-drupal.svg?maxAge=2592000)](https://packagist.org/packages/bradjonesllc/docker-drupal)
 
 ## Purpose
-This script is intended for one-time, initial scaffolding of a new [Drupal 8](http://drupal.org) project,
-which would then be self-contained. It uses a `composer.json` file derived from [drupal-project](https://github.com/drupal-composer/drupal-project)
-to pull in Drupal core, and provides additional helpful Docker-focused functionality.
-The drupal-project `composer.json` file and helper scripts can then be used to manage
-core updates, contrib modules and more. Drupal 8, with its robust exportable configuration
-file management and composer integration, is uniquely suited for containerized development.
+This repository provides two artifacts:
+
+1. A Composer package intended for one-time, initial scaffolding of a new
+    [Drupal 8](http://drupal.org) project, which would then be self-contained.
+    It uses a `composer.json` file derived from
+    [drupal-project](https://github.com/drupal-composer/drupal-project)
+    to pull in Drupal core, and provides additional helpful Docker-focused
+    functionality. The drupal-project `composer.json` file and helper scripts
+    can then be used to manage core updates, contrib modules and more. Drupal 8,
+    with its robust exportable configuration file management and Composer
+    integration, is uniquely suited for containerized development.
+1. A Docker image tailored for use with the enclosed project scaffolding. Its
+    behavior is largely dictated by the files in `config/docker/web/base`,
+    however they may be overridden on a project-specific basis by copying over
+    the files at the appropriate destination. **Use this image at your own
+    risk, understanding that backwards-compatibility in your particular case
+    may not be guaranteed. For safest results, build your own base images.**
 
 ## Usage/Quick-Start
 ```
-composer create-project  --stability dev --no-interaction --ignore-platform-reqs bradjonesllc/docker-drupal:dev-master PROJECT-DIR
+composer create-project  --stability dev --no-interaction --ignore-platform-reqs bradjonesllc/docker-drupal:^2 PROJECT-DIR
 ```
 ...Will install into a new directory named `PROJECT-DIR`.
 
@@ -48,18 +59,13 @@ speed development in a containerized environment and production deployment.
   many of those files, having them copied into the container saves some time on
   build. See *Development Workflow*, below.
 + All processes in the web container log to `STDOUT`; this is useful if you wish to
-  aggregate your Docker container logs or integrate with an external log service
-  such as [Logentries](https://logentries.com/learnmore?code=e500f810).
-+ An optional `rsyslog.json.conf` file, which will format log output in JSON format;
-  this expects JSON output directly from Drupal; consider using a module like
-  [Syslog JSON](https://www.drupal.org/sandbox/bradjones1/2569795)
+  aggregate your Docker container logs or integrate with an external log service.
 + Default configuration files for [PhpStorm](https://www.jetbrains.com/phpstorm/),
   including a server configuration and path mapping for Xdebug and setting max
   debug connections == 10 for [compatibility with](https://github.com/drush-ops/drush/issues/1534)
   Drush's subrequests.
 + A default cron implementation via crontab, which runs only when not in
-  development mode. Set the `SITE_URL` environment variable, so Drupal constructs
-  appropriate self-referential URLs during cron.
+  development mode.
 + Support for site-wide HTTP Basic authentication when the `HTPASSWD_USER`
   and `HTPASSWD_PASSWORD` environment variables are set, e.g., for a
   staging site. (Or mount in your own `/etc/.htpasswd` file to use.)
@@ -167,12 +173,8 @@ There are a few other Drupal/Docker projects, though most appear focused on Drup
 - [drude](https://github.com/blinkreaction/drude)
 - [bowline](https://github.com/davenuman/bowline)
 
-A few options for production deployment:
-- [Docker Machine](https://docs.docker.com/machine/)
-- [Docker Swarm](https://docs.docker.com/swarm/install-w-machine/)
-
 ### Groups and Resources
 - [Docker group on groups.drupal.org](https://groups.drupal.org/docker)
 
 ## Copyright and License
-&copy; 2016, Brad Jones LLC. Licensed under GPL 2.
+&copy; 2016-2018, Brad Jones LLC. Licensed under GPL 2.
