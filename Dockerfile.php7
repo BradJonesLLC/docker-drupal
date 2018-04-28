@@ -48,3 +48,7 @@ COPY config/docker/web/base/php.ini /usr/local/etc/php/php.ini
 EXPOSE 80
 
 CMD ["/usr/bin/supervisord"]
+
+ONBUILD ARG gitref=unknown
+ONBUILD ENV GITREF $gitref
+ONBUILD LABEL gitref $gitref

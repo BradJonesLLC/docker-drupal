@@ -13,7 +13,6 @@ services:
     environment:
      - ENVIRONMENT=DEV
      - DRUPAL_INSTALL=TRUE
-     - SITE_URL=http://localhost:8082
      - HTPASSWD_USER
      - HTPASSWD_PASSWORD
      - SERVER_ADMIN
