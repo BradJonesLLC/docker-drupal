@@ -1,6 +1,6 @@
 # Docker container for Drupal 8
 
-FROM php:7.2-apache
+FROM php:7.2.5-apache
 
 RUN apt-get update && apt-get install -yqq --no-install-recommends \
   rsyslog \
