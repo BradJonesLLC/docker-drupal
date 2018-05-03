@@ -46,7 +46,7 @@ COPY config/docker/web/base/wait-for-db.sh /wait-for-db.sh
 RUN chmod 600 /etc/cron.d/drupal && touch /cron-env
 COPY config/docker/web/base/php.ini /usr/local/etc/php/php.ini
 
-ENV PATH="/var/www/html/vendor/bin:${PATH}"
+ENV PATH="${PATH}:/var/www/html/vendor/bin"
 
 EXPOSE 80
 
