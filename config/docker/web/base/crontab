@@ -1,4 +1,4 @@
 MAILTO=""
 SHELL=/bin/bash
 
-22 * * * * . /cron-env; if [[ -n "$CRON_OK" ]]; then su -c 'drush core-cron' -s /bin/bash www-data; fi
+22 * * * * www-data . /cron-env; if [[ -n "$CRON_OK" ]]; then /bin/bash -c 'drush core-cron'; fi

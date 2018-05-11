@@ -41,7 +41,7 @@ COPY config/docker/web/base/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY config/docker/web/base/rsyslog.conf /etc/rsyslog.conf
 COPY config/docker/web/base/crontab /etc/cron.d/drupal
 COPY config/docker/web/base/wait-for-db.sh /wait-for-db.sh
-RUN chmod 600 /etc/cron.d/drupal && touch /cron-env
+RUN chmod 644 /etc/cron.d/drupal && touch /cron-env
 COPY config/docker/web/base/php.ini /usr/local/etc/php/php.ini
 
 ENV PATH="${PATH}:/var/www/html/vendor/bin"
