@@ -35,6 +35,7 @@ for dn in `cat /var/www/html/config/docker/web/web-writeable.txt`; do
   [ -d /var/www/html/$dn ] || mkdir /var/www/html/$dn
   chown -R www-data /var/www/html/$dn
 done
+mkdir -p /var/www/.drush && chown www-data /var/www/.drush
 
 if [[ $ENVIRONMENT == 'DEV' ]]; then
   cp /var/www/html/config/docker/web/base/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
