@@ -1,6 +1,6 @@
 # Development compose file.
 
-version: '2'
+version: '2.2'
 services:
   web:
     build: . # Can't be below this since we have to add files in public/

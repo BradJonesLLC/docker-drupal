@@ -55,7 +55,7 @@
         ]
     },
     "scripts": {
-        "config-export": "docker-compose exec -T --user $(id -u) web bash -c 'drush -y config-export'",
+        "config-export": "docker-compose exec -e HOME=/var/www/html -T --user $(id -u) web bash -c 'drush -y config-export'",
         "drupal-updates": "docker-compose exec -T web bash -c 'drush -y updb && drush -y config-import && drush -y entity:updates'",
         "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
         "pre-install-cmd": [
