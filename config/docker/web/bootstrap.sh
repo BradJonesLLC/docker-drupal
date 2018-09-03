@@ -11,7 +11,7 @@ cd /var/www/html/web
 
 rm /usr/local/etc/php/conf.d/xdebug.ini || true
 
-/wait-for-db.sh
+dockerize -wait tcp://db:3306
 
 if [[ -n "$DRUPAL_INSTALL" && ! `drush cget system.site uuid` ]]; then
   printf "Installing Drupal.\n"
