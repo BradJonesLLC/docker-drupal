@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -yqq --no-install-recommends \
   libpng-dev \
   locales \
   git \
+  wget \
   ca-certificates \
   && a2enmod rewrite \
   && a2enmod expires \
