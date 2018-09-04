@@ -11,7 +11,8 @@ cd /var/www/html/web
 
 rm /usr/local/etc/php/conf.d/xdebug.ini || true
 
-dockerize -wait tcp://db:3306 -timeout 60s
+HOST=${DRUPAL_DATABASE_HOST:-db}
+dockerize -wait tcp://$HOST:3306 -timeout 60s
 
 if [[ -n "$DRUPAL_INSTALL" && ! `drush cget system.site uuid` ]]; then
   printf "Installing Drupal.\n"
