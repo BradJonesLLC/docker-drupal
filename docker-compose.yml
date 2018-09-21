@@ -10,14 +10,13 @@ services:
      - "127.0.0.1:8082:80"
     volumes:
      - .:/var/www/html
-    links:
-     - db
     environment:
      - ENVIRONMENT=DEV
      - DRUPAL_INSTALL=TRUE
      - HTPASSWD_USER
      - HTPASSWD_PASSWORD
      - SERVER_ADMIN
+     - DRUSH_OPTIONS_URI=http://localhost:8082
   db:
     image: mysql:5.7
     environment:
