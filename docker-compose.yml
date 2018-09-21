@@ -1,9 +1,11 @@
 # Development compose file.
 
-version: '2.2'
+version: '2.3'
 services:
   web:
-    build: . # Can't be below this since we have to add files in public/
+    build:
+      context: .
+      target: base
     ports:
      - "127.0.0.1:8082:80"
     volumes:
