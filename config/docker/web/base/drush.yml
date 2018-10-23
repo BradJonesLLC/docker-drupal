@@ -1,0 +1,3 @@
+drush:
+  options:
+    root: /var/www/html/web

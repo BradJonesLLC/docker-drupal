@@ -41,7 +41,7 @@ COPY config /var/www/html
 COPY config/docker/web/base/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY config/docker/web/base/default.conf /etc/apache2/sites-available/000-default.conf
 RUN a2ensite 000-default.conf
-COPY config/docker/web/base/drushrc.php /etc/drush/drushrc.php
+COPY config/docker/web/base/drush.yml /etc/drush/drush.yml
 COPY config/docker/web/base/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY config/docker/web/base/rsyslog.conf /etc/rsyslog.conf
 COPY config/docker/web/base/crontab /etc/cron.d/drupal
