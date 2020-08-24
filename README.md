@@ -1,3 +1,7 @@
+## ARCHIVED! Don't use this.
+
+It was nice while it lasted but Composer and Docker have come a long way, and this repository is a vestige of a bygone era. Things are simpler now - use `drupal/recommended-project` et. al.
+
 # Docker Scaffolding for Drupal 8
 
 [![Docker Automated buil](https://img.shields.io/docker/automated/bradjonesllc/docker-drupal.svg?maxAge=2592000)](https://hub.docker.com/r/bradjonesllc/docker-drupal)
